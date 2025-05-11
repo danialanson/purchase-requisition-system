@@ -1,0 +1,108 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div>
+    <br />
+    {% if is_employee %}
+    <h2>Employee Menu</h2>
+    {% elif is_manager %}
+    <h2>Manager Menu</h2>
+    {% elif is_purchaser %}
+    <h2>Purchaser Menu</h2>
+    {% elif is_finance_officer %}
+    <h2>Finance Officer Menu</h2>
+    {% endif %}
+
+    <br />
+    <table>
+        {% if is_employee %}
+        <html>
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app/content/employeemenu.css'%}" />
+
+        <body>
+            <div class="btn-group">
+                <form class="margintop" action='submitPRform' method='GET'>
+                    <button type="submit" class="btn btn-info"> SUBMIT PURCHASE REQUISITION FORM</button>
+                </form>
+                <form class="margintop" action='viewPR' method='GET'>
+                    <button type="submit" class="btn btn-info"> VIEW PURCHASE REQUISITION FORMS LIST</button>
+                </form>
+            </div>
+        </body>
+
+        </html>
+        <p class="title1">Purchase Requisition System</p>
+
+        {% elif is_manager %}
+        <html>
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app/content/employeemenu.css'%}" />
+
+        <body>
+            <div class="btn-group">
+                <form class="margintop" action='arviewPR' method='GET'>
+                    <button type="submit" class="btn btn-info">APPROVE PURCHASE REQUISITION</button>
+                </form>
+                <form class="margintop" action='larviewPR' method='GET'>
+                    <button type="submit" class="btn btn-info">VIEW PURCHASE REQUISITION</button>
+                </form>
+                <form class="margintop" action='arviewQ' method='GET'>
+                    <button type="submit" class="btn btn-info">APPROVE QUOTATION</button>
+                </form>
+                <form class="margintop" action='larviewQ' method='GET'>
+                    <button type="submit" class="btn btn-info">VIEW QUOTATION</button>
+                </form>
+            </div>
+        </body>
+
+        </html>
+
+        {% elif is_purchaser %}
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app/content/employeemenu.css'%}" />
+
+        <body>
+            <div class="btn-group">
+                <form class="margintop" action='submitQuoform' method='GET'>
+                    <button type="submit" class="btn btn-info"> SUBMIT QUOTATION FORM</button>
+                </form>
+                <form class="margintop" action='viewQuo' method='GET'>
+                    <button type="submit" class="btn btn-info"> VIEW QUOTATION FORMS LIST</button>
+                </form>
+            </div>
+        </body>
+
+        {% elif is_finance_officer %}
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app/content/employeemenu.css'%}" />
+
+        <body>
+            <div class="btn-group">
+                <form class="margintop" action='submitPO' method='GET'>
+                    <button type="submit" class="btn btn-info"> SUBMIT PURCHASE ORDER</button>
+                </form>
+                <form class="margintop" action='viewPO' method='GET'>
+                    <button type="submit" class="btn btn-info"> VIEW PURCHASE ORDER</button>
+                </form>
+            </div>
+        </body>
+
+        {% else %}
+
+        <tr>
+            <td>
+                <p>Undefined User.</p>
+            </td>
+        </tr>
+
+        {% endif %}
+    </table>
+</div>
+
+{% endblock %}

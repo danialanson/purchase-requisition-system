@@ -1,0 +1,240 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Quotation</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+	<style>
+		@media print {
+			@page {
+				size: A4;
+			}
+		}
+
+		ul {
+			padding: 50;
+			margin: 0 0 1rem 0;
+			list-style: none;
+		}
+
+		body {
+			font-family: "Inter", sans-serif;
+			color: black;
+			margin: 0;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		table,
+		table th,
+		table td {
+			border: 2px solid silver;
+		}
+
+		table th,
+		table td {
+			text-align: right;
+			padding: 8px;
+		}
+
+		h1,
+		h4,
+		p {
+			margin: 0;
+		}
+
+		.quo-title {
+			padding: 10px;
+			text-align: center;
+			margin-bottom: 100px;
+		}
+
+		/* header */
+		.quo-header {
+			display: flex;
+			margin-bottom: 100px;
+		}
+
+		.quo-header> :nth-child(1) {
+			flex: 2;
+		}
+
+		.quo-header> :nth-child(2) {
+			flex: 1;
+		}
+
+		.quo-header h2 {
+			font-size: 20px;
+			margin: 0 0 0.5rem 0;
+		}
+
+		.quo-header ul li {
+			font-size: 15px;
+			padding: 3px 0;
+		}
+
+		/* body */
+		.quo-body table th,
+		.quo-body table th {
+			text-align: left;
+			background-color: teal;
+		}
+
+		.quo-body {
+			margin-bottom: 40px;
+		}
+
+		/* footer */
+		.quo-footer {
+			text-align: left;
+			display: flex;
+			flex-direction: row;
+		}
+
+		.quo-footer> :nth-child(1) {
+			flex: 2;
+		}
+
+		.quo-footer> :nth-child(2) {
+			flex: 1;
+		}
+	</style>
+</head>
+
+<body>
+	<form class="generatePOsubmission" action="generatePOconfirmation" method="POST">
+		{% csrf_token %}
+
+		{% for i in list %}
+		<div class="container">
+			<div class="quo-title">
+				<h1>Generate Purchase Order</h1>
+			</div>
+			<div class="quo-header">
+				<div>
+					<h2 style="font: montserrat;">{{i.vendor_name}}</h2>
+					<ul>
+						{% for p in vaddress %}
+						<li>{{p}}</li>
+						{% endfor %}
+						<li>{{i.vendor_contact}} | {{i.vendor_email}}</li>
+					</ul>
+					<h2 style="font: montserrat;">{{i.client_name}}</h2>
+					<ul>
+						{% for p in caddress %}
+						<li>{{p}}</li>
+						{% endfor %}
+						<li>{{i.client_contact}} | {{i.client_email}}</li>
+					</ul>
+					<h2 style="font: montserrat;"> Ship To </h2>
+					<ul>
+						<li><textarea name="purchase_address" rows="4" cols="50"
+								placeholder="01 Jln Default, 47130 Puchong, Selangor">01 Jln Default, 47130 Puchong, Selangor</textarea>
+						</li>
+						<li><input type="text" name="purchase_contact" value="011-1101010" placeholder='011-1101010'> |
+							<input type="text" name="purchase_email" value="default@gmail.com"
+								placeholder='default@gmail.com'></li>
+					</ul>
+				</div>
+				<div>
+					<table>
+						<tr>
+							<th>Quotation Date</th>
+							<td>{{i.quotation_date}}</td>
+						</tr>
+						<tr>
+							<th>Valid Until Date</th>
+							<td>{{i.valid_days}}</td>
+						</tr>
+						<tr>
+							<th>Quotation #</th>
+							<td>{{i.quotation_id}}</td>
+						</tr>
+						<tr>
+							<th>Purchaser</th>
+							<td>{{i.purchaser.username}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="quo-body">
+				<table>
+					<thead>
+						<th>Product ID</th>
+						<th>Name</th>
+						<th>Quantity</th>
+						<th>Unit Price (RM)</th>
+						<th>Total Price(RM)</th>
+						<th>Selection</th>
+
+					</thead>
+					<tbody>
+						{% for p in items %}
+						<tr>
+							<td>
+								<h4>{{p.item_id}}</h4>
+							<td>{{p.item_name}}</td>
+							<td>{{p.item_qty}}</td>
+							</td>
+							<td>{{p.item_unit_cost}}</td>
+							<td>{{p.item_total_cost}}</td>
+							<td>
+								<input type="checkbox" value={{p.item_id}} name="POitems" checked>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="quo-footer">
+				<div><!-- required --></div>
+				<div>
+					<table>
+						<tl>
+							<th style="background-color: teal;">Subtotal (RM)</th>
+							<td>{{i.subtotal}}</td>
+							</tr>
+							</tr>
+							<th style="background-color: teal;">Discount</th>
+							<td>{{discount_rate}}</td>
+							</tr>
+							<tr>
+								<th style="background-color: teal;">Tax Rate</th>
+								<td>{{tax_rate}}</td>
+							</tr>
+							<th style="background-color: teal;">Final Total Amount (RM)</th>
+							<td>{{i.total}}</td>
+							</tr>
+							</tr>
+							<th style="background-color: teal;">Payment Type</th>
+							<td><select name="payment">
+									<option value="Cash">Cash</option>
+									<option value="Cheque">Cheque</option>
+									<option value="Bank Transaction">Bank Transaction</option>
+								</select></td>
+							</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="margintop">
+			<button type="submit" class="btn btn-success btn-square buttonsize" value={{i.quotation_id}}
+				name="quotation">Generate</button>
+			<a class="btn btn-danger btn-square buttonsize" href="/menu">Back</a>
+		</div>
+		{% endfor %}
+	</form>
+</body>
+
+</html>
+
+{% endblock %}

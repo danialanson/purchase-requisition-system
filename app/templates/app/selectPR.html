@@ -1,0 +1,147 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<style>
+    table, th,td {
+       border:none;
+       border-collapse: collapse;
+       border-left: 1px solid white;
+       border-right: 1px solid white;
+       text-align: center;
+       padding:10px;
+       vertical-align: middle;
+   } 
+   
+   th {
+       background-color: #555c5c;
+       color: white;
+       padding:15px;
+       vertical-align: middle;
+   
+   
+   }
+   tr{
+       border:1px solid;
+       border-color: white;
+       background-color: #393E46;
+       color: white;
+       vertical-align: middle;
+   }
+   tr > td {
+       min-width: 240px;
+       /* border: 1px solid black; */
+   }
+   tr > td:first-child {
+       min-width: 240px;
+   }
+   .button{
+            padding : 10px 20px;
+            margin : 5px 2px;
+            display: inline-block;
+            width: 180px;
+            border: none;
+            border-radius: 12px;
+            background-color:#525e5e;
+            color: white;
+            display: inline-block;
+            
+    
+    }
+    
+    button:hover{
+        background-color: #525f5f;
+    }
+    .approve{
+        padding : 13px 15px;
+        margin : 5px 2px;
+        width: 230px;
+        border: none;
+        border-radius: 12px;
+        background-color:#3E9C4D;
+        color: white;
+    }
+
+    .reject{
+        padding : 13px 15px;
+        margin : 5px 2px;
+        width: 230px;
+        border: none;
+        border-radius: 12px;
+        background-color:#8F3F3F;
+        color: white;
+    }
+
+    .centre{
+        text-align: center;
+    }
+
+</style>
+<div>
+    <br/>
+    <h1 style="text-align: center;" ><strong> Purchase Requisition #{{pr}}</strong></h1>
+    <br/>
+  <!-- <form class="margintop" action = 'searchPo' method='POST'>
+    {% csrf_token %} 
+    <input type="text" placeholder="Search here..." aria-label="Search here.." name = "searched")>
+    <button class="btn btn-info">Search</button>
+    </form> -->
+<table>
+    <br/>
+    <thead>
+        <th>Item ID</th>
+        <th>Description</th>
+        <th>Quantity Provided</th>
+        <th>Price per unit (RM)</th>
+        <th>Total Price (RM)</th>
+    </thead>
+        {%for pri in products%}
+            <tr>
+                <td>{{pri.item_ID}}</td>
+                <td>{{pri.item_Description}}</td>
+                <td>RM{{pri.item_Quantity}}</td>
+                <td>{{pri.item_unitPrice}}</td>
+                <td>RM{{pri.item_totalPrice}}</td>
+            </tr>
+        {% endfor %}
+    <br/>
+</table>
+</div>
+
+<div>
+    <br/>
+    <table>
+        <br/>
+        <thead>
+            <th>Purchase Requisition ID</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Delivery Address</th>
+        </thead>
+            <tr>
+                <td>{{pr.pr_id}}</td>
+                <td>{{form_Date}}</td>
+                <td>{{formStatus}}</td>
+                <td>{{delv_Address}}</td>
+            </tr>
+        <br/>
+    </table>
+</div>
+
+<br>
+<div class="centre">
+    <div>
+        <form style="display: inline-block" class="margintop" action='arapprovePR' method='POST'>
+            {% csrf_token %} 
+            <button type="submit" name="purchaseRequisition" value="{{pr.pr_id}}" class="approve">Approve</button><br />
+        </form>
+    
+        <form style="display: inline-block" class="margintop" action='arrejectPR' method='POST'>
+            {% csrf_token %} 
+            <button type="submit" name="purchaseRequisition" value="{{pr.pr_id}}" class="reject">Reject</button><br />
+        </form>
+    </div> 
+    <div>
+        <a class="btn btn-danger btn-square buttonsize" href="/menu">Back</a>
+    </div>
+</div>
+{% endblock %}

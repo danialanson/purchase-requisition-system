@@ -1,0 +1,129 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	table,
+	th,
+	td,
+	tr {
+		padding: 10px;
+	}
+
+	th {
+		background-color: rgb(187, 194, 194);
+		color: white;
+	}
+
+	tr {
+		border: 1px solid;
+	}
+
+	.btn {
+		margin-top: 10px;
+	}
+
+	.row_left {
+		display: inline-block;
+		vertical-align: top;
+		width: 400px;
+	}
+
+	.row_right {
+		display: inline-block;
+		vertical-align: top;
+		padding-left: 150px;
+		width: 400px;
+	}
+
+	.col-50 {
+		border: 1px solid;
+	}
+
+	.col-50,
+	.col-75 {
+		padding: 0 16px;
+	}
+
+	label {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		display: block;
+	}
+
+	.table_id {
+		width: 75px;
+	}
+
+	.table_field {
+		width: 120px;
+	}
+
+	.table_description {
+		width: 500px;
+	}
+
+	.approved {
+		color: green;
+	}
+
+	.not-approved {
+		color: red;
+	}
+</style>
+<h2>Purchase Order Form</h2>
+<div class="row">
+	<div class="col-75">
+		<div>
+			{% csrf_token %}
+
+			{% for i in po %}
+			<div class="row_left">
+				<div class="col-50">
+					<label>Purchase Order ID: {{ i.po_id }}</label>
+					<label>Quotation ID: {{ i.quotation_ID }}</label>
+					<label>Delivery Address: {{ i.delv_Address }}</label>
+					<label>Vendor Name: {{ i.vendor_Name }}</label>
+					<label>Vendor Address: {{ i.vendor_Address }}</label>
+				</div>
+			</div>
+
+			<div class="row_right">
+				<div class="col-50">
+					<label>Finance Officer: {{ i.fo_Name }}</label>
+					<label>Purchase Order Date: {{ i.po_Date }}</label>
+				</div>
+			</div>
+			{% endfor %}
+
+			<h2>Items</h2>
+			<table>
+				<tr>
+					<th class="table_id">ID</th>
+					<th class="table_description">Description</th>
+					<th class="table_field">Quantity</th>
+					<th class="table_field">Unit Price</th>
+					<th class="table_field">Total Price</th>
+				</tr>
+				{% for i in ilist %}
+				<tr>
+					<td><label>{{ i.item_id }}</label></td>
+					<td><label>{{ i.item_Description }}</label></td>
+					<td><label>{{ i.item_Quantity }}</label></td>
+					<td><label>{{ i.item_unitPrice }}</label></td>
+					<td><label>{{ i.item_totalPrice }}</label></td>
+				</tr>
+				{% endfor %}
+			</table>
+			<div class="margintop">
+				<a class="btn btn-danger" href="/viewPO">Back</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>
+
+{% endblock %}

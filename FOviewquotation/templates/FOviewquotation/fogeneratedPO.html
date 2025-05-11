@@ -1,0 +1,68 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<style>
+    .quo-title {
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 100px;
+    }
+
+    .quo-header {
+        display: flex;
+    }
+
+    ul {
+        padding: 50;
+        margin: 0 0 1rem 0;
+        list-style: none;
+    }
+
+    .quo-header ul li {
+        font-size: 15px;
+        padding: 3px 0;
+    }
+</style>
+
+<div class="quo-title">
+    <h1>Purchase Order Generated!</h1>
+</div>
+
+<p>Purchase_Order ID: {{ purchase_order.purchase_id }}</p>
+<p>Payment Type: {{ purchase_order.payment_type }}</p>
+<p> </p>
+<p font-size: 50px> Ship To: </p>
+
+<div class="quo-header">
+    <ul>
+        {% for p in paddress %}
+        <li>{{p}}</li>
+        {% endfor %}
+        <li>{{purchase_order.purchase_contact}} | {{purchase_order.purchase_email}}</li>
+    </ul>
+</div>
+
+<p>Items Purchased:</p>
+<table bgcolor="black" width="1000">
+    <tr bgcolor="Yellow">
+        <th width="250">Item ID</th>
+        <th width="250">Quantity</th>
+        <th width="250">Item Unit Cost</th>
+        <th width="250">Item Total Cost</th>
+    </tr>
+    {% for i in items %}
+    <tr>
+        <td>{{ i.item_id }}</td>
+        <td>{{ i.item_qty }}</td>
+        <td>{{ i.item_unit_cost }}</td>
+        <td>{{ i.item_total_cost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="margintop">
+    <a class="btn btn-danger btn-square buttonsize" href="/menu">Back to Menu</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<style>
+    .title {
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 100px;
+    }
+
+    .center {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    form {
+        text-align: center;
+    }
+
+    table, th, td{
+        margin: 0 auto;
+        text-align: left;
+        width: 80%;
+        padding: 10px;
+    }
+
+    th {
+        background-color: rgb(187, 194, 194);
+        color : white;
+    }
+    tr{
+        border:1px solid;
+        border-color: black;
+    }
+
+    label {
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .approved {
+        color: green;
+    }
+
+    .not-approved {
+        color: red;
+    }
+</style>
+
+
+<div class="title">
+    <h2>View Purchase Order</h2>
+
+    <form class="details" action="submitPOdetails" method="POST">
+        {% csrf_token %}
+
+        {% if list %}
+        <table width="1000">
+            <tr>
+                <th width="250">Purchase Order ID</th>
+                <th width="250">Status</th>
+            </tr>
+            {% for i in list %}
+            <tr>
+                <td>
+                    <button type="submit" name={{i.quotation_ID}} value={{i.quotation_Stats}}
+                        class="btn btn-success">{{i.quotation_ID}}</button>
+                </td>
+                <td><label for="status_{{i.quotation_ID}}"
+                        class="{% if i.quotation_Stats == 'Approved' %}approved{% elif i.quotation_Stats == 'Rejected' %}not-approved{% else %}{% endif %}">{{i.quotation_Stats}}</label>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% elif not list %}
+        <label> You have not filled out any Quotation.</label>
+        {% endif %}
+
+        <div class="center">
+            <a class="btn btn-danger btn-square buttonsize" href="/menu">Back</a>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

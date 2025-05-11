@@ -1,0 +1,145 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	table,
+	th,
+	td,
+	tr {
+		padding: 10px;
+	}
+
+	th {
+		background-color: rgb(187, 194, 194);
+		color: white;
+	}
+
+	tr {
+		border: 1px solid;
+	}
+
+	.btn {
+		margin-top: 10px;
+	}
+
+	.row_left {
+		display: inline-block;
+		vertical-align: top;
+		width: 400px;
+	}
+
+	.row_right {
+		display: inline-block;
+		vertical-align: top;
+		padding-left: 150px;
+		width: 400px;
+	}
+
+	.col-50 {
+		border: 1px solid;
+	}
+
+	.col-50,
+	.col-75 {
+		padding: 0 16px;
+	}
+
+	label {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		display: block;
+	}
+
+	.table_id {
+		width: 75px;
+	}
+
+	.table_field {
+		width: 120px;
+	}
+
+	.table_description {
+		width: 500px;
+	}
+
+	.inline,
+	.approved,
+	.not-approved {
+		display: inline-block;
+	}
+
+	.approved {
+		color: green;
+	}
+
+	.not-approved {
+		color: red;
+	}
+</style>
+<h2>Purchase Order</h2>
+<div class="row">
+	<div class="col-75">
+		<div>
+			<form action="submitPOconfirmation" method="POST">
+				{% csrf_token %}
+
+				{% for i in quo %}
+				<div class="row_left">
+					<div class="col-50">
+						<label class="inline">ID: </label>
+						<label class="inline">{{ i.quotation_ID }}</label>
+						<label>Delivery Address: {{ i.delv_Address }}</label>
+						<label>Vendor Name: {{ i.vendor_Name }}</label>
+						<label>Vendor Address: {{ i.vendor_Address }}</label>
+					</div>
+				</div>
+
+				<div class="row_right">
+					<div class="col-50">
+						<label>Purchaser: {{ i.purchaser_Name }}</label>
+						<label>Quotation Date: {{ i.quotation_Date }}</label>
+						<label class="inline">Status: </label>
+						<label
+							class="{% if i.quotation_Stats == 'Approved' %}approved{% elif i.quotation_Stats == 'Rejected' %}not-approved{% else %}{% endif %}">{{i.quotation_Stats}}</label>
+					</div>
+				</div>
+				{% endfor %}
+
+				<h2>Items</h2>
+				<table>
+					<tr>
+						<th class="table_id">ID</th>
+						<th class="table_description">Description</th>
+						<th class="table_field">Quantity</th>
+						<th class="table_field">Unit Price</th>
+						<th class="table_field">Total Price</th>
+					</tr>
+					{% for i in ilist %}
+					<tr>
+						<td><label>{{ i.item_id }}</label></td>
+						<td><label>{{ i.item_Description }}</label></td>
+						<td><label>{{ i.item_Quantity }}</label></td>
+						<td><label>{{ i.item_unitPrice }}</label></td>
+						<td><label>{{ i.item_totalPrice }}</label></td>
+					</tr>
+					{% endfor %}
+				</table>
+				{% for i in quo %}
+				<div class="margintop">
+					<button class="btn btn-success" type="submit" name={{i.quotation_ID}}>Generate</button>
+				</div>
+				{% endfor %}
+				<div class="margintop">
+					<a class="btn btn-danger" href="/submitPO">Back</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+</html>
+
+{% endblock %}

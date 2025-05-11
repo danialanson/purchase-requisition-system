@@ -1,0 +1,54 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<style>
+    .quo-title {
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 100px;
+    }
+    table, td, th {
+    border: 1px solid black;
+    background-color: yellow;
+    }
+    table {
+    width: 100%
+    }
+    td, th {
+    text-align: center;
+    }
+</style>
+
+
+<div class="quo-title">
+    <h1>View Purchase Orders</h1>
+
+<form class="details" action="foviewPOdetails" method="POST">
+{% csrf_token %}
+
+<table bgcolor="black" width="1000">
+    <tr bgcolor="Yellow">
+        <th width="250">Purchase Order ID</th>
+        <th width="250">Purchase Date</th>
+        <th width="250">Total</th>
+        <th width="250">Select</th>
+    </tr>
+    {% for i in list %}
+    <tr>
+        <td>{{ i.purchase_id }}</td>
+        <td>{{ i.purchase_date }}</td>
+        <td>{{ i.purchase_total }}</td>
+        <td><button type="submit" name={{i.purchase_id}} value={{i.purchase_id}} class="btn btn-info" >View</button></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="margintop">
+    <a class="btn btn-danger btn-square buttonsize" href="/menu">Back</a>
+</div>
+
+</div>
+
+
+{% endblock %}

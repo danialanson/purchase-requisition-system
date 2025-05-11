@@ -1,0 +1,116 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<html>
+<style>
+    .row {
+        display: -ms-flexbox;
+        /* IE10 */
+        display: flex;
+        -ms-flex-wrap: wrap;
+        /* IE10 */
+        flex-wrap: wrap;
+        margin: 0 -16px;
+    }
+
+    .col-50 {
+        -ms-flex: 50%;
+        /* IE10 */
+        flex: 50%;
+    }
+
+    .col-75 {
+        -ms-flex: 75%;
+        /* IE10 */
+        flex: 75%;
+    }
+
+    .col-50,
+    .col-75 {
+        padding: 0 16px;
+    }
+
+    input {
+        width: 100%;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    label {
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .table_id {
+        width: 75px;
+    }
+
+    .table_field {
+        width: 120px;
+    }
+
+    .table_description {
+        width: 300px;
+    }
+</style>
+<h2>Quotation Form</h2>
+<div class="row">
+    <div class="col-75">
+        <div class="container">
+            <form action="submitQuoconfirmation" method="POST">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-50">
+                        <label>ID</label>
+                        <input type="text" name="quotation_ID">
+                        <label>Delivery Address</label>
+                        <input type="text" name="delivery_address">
+                        <label>Vendor Name</label>
+                        <input type="text" name="vendor_name">
+                        <label>Vendor Address</label>
+                        <input type="text" name="vendor_address">
+                    </div>
+                </div>
+                <h3>Items</h3>
+                <table>
+                    <tr>
+                        <th class="table_id">ID</th>
+                        <th class="table_description">Description</th>
+                        <th class="table_field">Unit Price</th>
+                        <th class="table_field">Quantity</th>
+                    </tr>
+                    <tr>
+                        <td><input class="table_id" name="item_id1" placeholder="ID1"></td>
+                        <td><input class="table_description" name="item_desc1" placeholder="DESC1"></td>
+                        <td><input class="table_field" name="item_price1" placeholder="PRICE1"></td>
+                        <td><input class="table_field" name="item_quantity1" placeholder="QUANTITY1"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="table_id" name="item_id2" placeholder="ID2"></td>
+                        <td><input class="table_description" name="item_desc2" placeholder="DESC2"></td>
+                        <td><input class="table_field" name="item_price2" placeholder="PRICE2"></td>
+                        <td><input class="table_field" name="item_quantity2" placeholder="QUANTITY2"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="table_id" name="item_id3" placeholder="ID3"></td>
+                        <td><input class="table_description" name="item_desc3" placeholder="DESC3"></td>
+                        <td><input class="table_field" name="item_price3" placeholder="PRICE3"></td>
+                        <td><input class="table_field" name="item_quantity3" placeholder="QUANTITY3"></td>
+                    </tr>
+                    </tr>
+                </table>
+                <button class="btn btn-success btn-square buttonsize" type="submit">Submit</button>
+                <a class="btn btn-danger btn-square buttonsize" href="/menu">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</html>
+
+{% endblock %}
